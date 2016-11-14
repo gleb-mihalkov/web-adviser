@@ -4,11 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width; initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
-  <title>Помощник в принятии решений 1.0</title>
-  <meta name="description" content="Помощник в принятии решений 1.0">
-  <meta property="og:image" content="">
-  <meta property="og:title" content="">
-  <meta property="og:description" content="Помощник в принятии решений 1.0">
+  <title>Помощник в принятии решений</title>
+  <meta name="description" content="Мои результаты выбора">
+  <meta property="og:description" content="Мои результаты выбора">
 </head>
 <body>
 	<div class="tgr  js-tgr">
@@ -81,7 +79,7 @@
 				<div class="ctr ctr--sd">
 					<div class="ctr__in  txt txt--sd">
 						<h2 class="hg hg--sd">Подсказка</h2>
-						<p>Вначале следует ввести, что мы выбираем, например, "автомобиль".</p>
+						<p>Вначале следует ввести, что мы выбираем, например, &laquo;автомобиль&raquo;.</p>
 						<p>В будущем это потребуется для того, чтобы вы смогли поделиться результатами своего выбора в блогах или социальных сетях.</p>
 						<p>Когда вы заполните текстовое поле, нажмите кнопку <span class="key">Далее</span>.</p>
 					</div>
@@ -120,7 +118,7 @@
 				<div class="ctr ctr--sd">
 					<div class="ctr__in  txt txt--sd">
 						<h2 class="hg hg--sd">Подсказка</h2>
-						<p>Теперь следует задать варианты выбора. Если, к примеру, мы выбираем автомобиль, то вариантами выбора могут быть "тойота", "ауди" или "форд".</p>
+						<p>Теперь следует задать варианты выбора. Если, к примеру, мы выбираем автомобиль, то вариантами выбора могут быть &laquo;тойота&raquo;, &laquo;ауди&raquo; или &laquo;форд&raquo;.</p>
 						<p>Чтобы добавить вариант, следует нажать на плюс в левом углу любого текстового поля или просто нажать клавишу <span class="key">Enter</span>.</p>
 						<p>Чтобы очистить строку, нажмите крестик в правой стороне текстового поля. Чтобы удалить текстовое поле полностью, нажмите крестик ещё раз. Того же эффекта можно добиться, нажав <span class="key">Ctrl или Shift</span> + <span class="key">Del или Backspace</span>.</p>
 						<p>Перемещаться по полям можно с помощью стрелок <span class="key">↑</span> / <span class="key">↓</span> или с помощью клавиши <span class="key">Tab</span> / <span class="key">Shift</span> + <span class="key">Tab</span>.</p>
@@ -164,7 +162,7 @@
 					<div class="ctr__in  txt txt--sd">
 						<h2 class="hg hg--sd">Подсказка</h2>
 						<p>Этот шаг можно пропустить.</p>
-						<p>Критерии выбора нужны для получения более точного результата. Для нашего примера с автомобилем это могут быть: "скорость", "цена", "внешний вид" и т.д.</p>
+						<p>Критерии выбора нужны для получения более точного результата. Для нашего примера с автомобилем это могут быть: &laquo;скорость&raquo;, &laquo;цена&raquo;, &laquo;внешний вид&raquo; и т.д.</p>
 						<p>Следует помнить, что от количества критериев напрямую зависит время принятия решения. В нижней части экрана отображается, сколько шагов потребуется для выбора.</p>
 						<p>Управление на этой странице аналогично предыдущей.</p>
 					</div>
@@ -174,6 +172,18 @@
 	</div>
 </script>
 <!-- end crits.html-->
+<!-- start cmp_desc.html-->
+<script type="text/html" id="tpCmpDesc">
+	<?
+		var valueA = $0;
+		var valueB = $1;
+	?>
+	<p>Из представленной пары выберите наиболее важный для вас <?= valueA; ?> и нажмите <span class="key">Ctrl или Shift</span> + <span class="key">Enter</span> или кнопку <span class="key">Далее</span>.</p>
+	<p>Также <?= valueB; ?> можно выбирать с помощью стрелок <span class="key">↑</span> / <span class="key">↓</span>.</p>
+	<p>Номер текущего шага и их общее количество показаны в нижней части экрана.</p>
+	<p>Попробуйте забыть, что существуют другие <?= valueB; ?>, кроме показанных вам. Не пытайтесь подогнать ответ к ожидаемому. Задача этого приложения - помочь найти наиболее подходящее для вас решение, даже если оно окажется неочевидным.</p>
+</script>
+<!-- end cmp_desc.html-->
 <!-- start cmp_item.html-->
 <script type="text/html" id="tpCmpItem">
 	<?
@@ -197,7 +207,7 @@
 						<div class="hg__pb" style="width: <?= percent; ?>%"></div>
 					</h1>
 					<? if (crit) { ?>
-						<p class="tlg">Если учитывать только <strong><?= crit; ?></strong>, выберите, что для вас важнее:</p>
+						<p class="tlg">Если учитывать только &laquo;<strong><?= crit; ?></strong>&raquo;, выберите, что для вас важнее:</p>
 					<? } else { ?>
 						<p class="tlg">Выберите, что для вас важнее:</p>
 					<? } ?>
@@ -248,8 +258,7 @@
 					<div class="ctr__in  txt txt--sd">
 						<h2 class="hg hg--sd">Подсказка</h2>
 						<p>Оцениваем критерии выбора с точки зрения их важности для вас.</p>
-						<p>Из представленной пары выберите наиболее важный для вас критерий и нажмите кнопку <span class="key">Далее</span>.</p>
-						<p>Номер текущего шага и их общее количество показаны в нижней части экрана.</p>
+						<?= $.template('#tpCmpDesc', 'критерий', 'критерии'); ?>
 					</div>
 				</div>
 			</div>
@@ -264,6 +273,9 @@
 <!-- end cmp_crits_item.html-->
 <!-- start cmp_objects.html-->
 <script type="text/html" id="tpCmpObjects">
+	<?
+		var isCrits = $1.isCrits;
+	?>
 	<div class="pg__it">
 		<div class="srn" id="srnMain">
 			<div class="srn__mn">
@@ -273,10 +285,8 @@
 				<div class="ctr ctr--sd">
 					<div class="ctr__in  txt txt--sd">
 						<h2 class="hg hg--sd">Подсказка</h2>
-						<p>Оцениваем варианты выбора.</p>
-						<p>Из представленной пары выберите наиболее важный для вас вариант и нажмите кнопку <span class="key">Далее</span>.</p>
-						<p>Номер текущего шага и их общее количество показаны в нижней части экрана.</p>
-						<p>Попробуйте забыть, что существуют другие варианты, кроме показанных вам. Не пытайтесь подогнать ответ к ожидаемому. Задача данного приложения - помочь вам сделать наиболее подходящий для вас выбор, даже если он окажется неочевидным.</p>
+						<p>Оцениваем варианты выбора<? if (isCrits) { ?> по заданным критериям<? } ?>.</p>
+						<?= $.template('#tpCmpDesc', 'вариант', 'варианты'); ?>
 					</div>
 				</div>
 			</div>
@@ -325,17 +335,24 @@
 					<div class="ctr__in  txt txt--sd">
 						<h2 class="hg hg--sd">Поделиться</h2>
 						<p>
-							<? var uriA = '//yastatic.net/es5-shims/0.0.2/es5-shims.min.js'; ?>
-							<? var uriB = '//yastatic.net/share2/share.js'; ?>
-							<? var scriptA = '<' + 'script' + ' src="' + uriA + '"' + '>' + '</' + 'script' + '>'; ?>
-							<? var scriptB = '<' + 'script' + ' src="' + uriB + '"' + '>' + '</' + 'script' + '>'; ?>
-							<?= scriptA; ?>
-							<?= scriptB; ?>
-							<div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,moimir,gplus,twitter"></div>
+							<?= '<' + 'script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"' + '></' + 'script' + '>'; ?>
+							<?= '<' + 'script src="' + '//yastatic.net/share2/share.js' + '"></' + 'script' + '>'; ?>
+							<span class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,moimir,gplus,twitter"></span>
+							<?= '<' + 'script' + '>'; ?>
+								function onYa() {
+									Ya.share2(block, {
+										content: {
+											uri: window.location.href,
+											title: window.document.title,
+											description: 'Мои результаты выбора для "<?= subject; ?>".'
+										}
+									});
+								};	
+							<?= '</' + 'script' + '>'; ?>
 						</p>
 						<p>
 							<a href="<?= window.location.hash; ?>" class="js-lnk">Ссылка на страницу</a><br>
-							нажмите на ссылку правой кнопкой мыши и выберите пункт "Скопировать адрес ссылки".
+							нажмите на ссылку правой кнопкой мыши и выберите пункт &laquo;Скопировать адрес ссылки&raquo;.
 						</p>
 						<p><a target="_blank" rel="nofollow" href="https://github.com/gleb-mihalkov/adviser">Исходный код</a></p>
 					</div>
