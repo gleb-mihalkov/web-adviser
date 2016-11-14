@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width; initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Помощник в принятии решений 1.0</title>
+  <meta name="description" content="Помощник в принятии решений 1.0">
+  <meta property="og:image" content="">
+  <meta property="og:title" content="">
+  <meta property="og:description" content="Помощник в принятии решений 1.0">
+</head>
+<body>
+	<div class="tgr  js-tgr">
+		<button type="button" class="tgr__icn  icn" data-toggle="#srnMain"></button>
+	</div>
+	<div class="pg pg--vt" id="pgMain"></div>
+<!-- start form_list_item.html-->
+<script type="text/html" id="tpFormListItem">
+	<?
+		var name = $0;
+		var title = $1;
+	?>
+	<div class="frm__it  js-frm-lst__it">
+		<label class="npt-gp npt-gp--bk npt-gp--pd">
+			<input type="text" name="item" class="npt npt--bk  js-frm-lst__vl" autocomplete="off" placeholder="Введите <?= title; ?>" value="<?= name; ?>" tabindex="">
+			<span class="npt-gp__in npt-gp__in--lt">
+				<button type="button" class="icn icn--add  js-frm-lst__mk"></button>
+			</span>
+			<span class="npt-gp__in npt-gp__in--rt">
+				<button type="button" class="icn icn--cls  js-frm-lst__rm"></button>
+			</span>
+		</label>
+	</div>
+</script>
+<!-- end form_list_item.html-->
+<!-- start form_list.html-->
+<script type="text/html" id="tpFormList">
+	<?
+		var list = $0;
+		var title = $1;
+	?>
+	<? for (var i = 0; i < list.length; i++) { ?>
+		<?= $.template('#tpFormListItem', list[i], title); ?>
+	<? } ?>
+	<?= $.template('#tpFormListItem', '', title); ?>
+	<div class="frm__it  frm__it--btm">
+		<button type="back" class="btn btn--pl">Назад</button>
+		<button type="submit" class="btn btn--wd  ftr" tabindex="">Далее</button>
+	</div>
+</script>
+<!-- end form_list.html-->
+<!-- start subject.html-->
+<script type="text/html" id="tpSubject">
+	<?
+		var subject = $1.subject;
+	?>
+	<div class="pg__it">
+		<div class="srn" id="srnMain">
+			<div class="srn__mn">
+				<div class="ctr">
+					<div class="ctr__in">
+						<form action="#" class="frm  js-frm-vl  js-frm-sbj" name="subject">
+							<h1 class="hg hg--pm">Что мы выбираем?</h1>
+							<label class="frm__it">
+								<div class="npt-gp npt-gp--bk">
+									<input type="text" name="item" class="npt npt--bk  js-frm-vl__vl" autocomplete="off" tabindex="" placeholder="Введите объект выбора" value="<?= subject; ?>">
+									<span class="npt-gp__in npt-gp__in--rt">
+										<button type="button" class="icn icn--cls  js-frm-vl__rm"></button>
+									</span>
+								</label>
+							</div>
+							<div class="frm__it frm__it--btm">
+								<button type="submit" class="btn btn--wd  ftr" tabindex="">Далее</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="srn__sd">
+				<div class="ctr ctr--sd">
+					<div class="ctr__in  txt txt--sd">
+						<h2 class="hg hg--sd">Подсказка</h2>
+						<p>Вначале следует ввести, что мы выбираем, например, "автомобиль".</p>
+						<p>В будущем это потребуется для того, чтобы вы смогли поделиться результатами своего выбора в блогах или социальных сетях.</p>
+						<p>Когда вы заполните текстовое поле, нажмите кнопку <span class="key">Далее</span>.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+<!-- end subject.html-->
+<!-- start objects.html-->
+<script type="text/html" id="tpObjects">
+	<?
+		var objects = $1.objects || [];
+		var cmpCount = window.calc.cmpCount(objects.length);
+		var cmpText = window.lang.numberWord(cmpCount, 'шаг', 'шага', 'шагов');
+	?>
+	<div class="pg__it">
+		<div class="srn" id="srnMain">
+			<div class="srn__mn">
+				<div class="ctr">
+					<div class="ctr__in">
+						<form action="#" class="frm  frm--w-sd  js-frm-lst  js-frm-obj  js-frm-cc" name="objects" data-item="#tpFormListItem" data-item-title="вариант">
+							<h1 class="hg hg--pm">Из каких вариантов мы выбираем?</h1>
+							<?= $.template('#tpFormList', objects, 'вариант'); ?>
+							<div class="frm__sd">
+								<p class="tac">Итого:
+									<strong class="js-frm-cc__cc"><?= cmpCount; ?></strong>
+									<span class="js-frm-cc__tt"><?= cmpText; ?></span>.
+								</p>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="srn__sd">
+				<div class="ctr ctr--sd">
+					<div class="ctr__in  txt txt--sd">
+						<h2 class="hg hg--sd">Подсказка</h2>
+						<p>Теперь следует задать варианты выбора. Если, к примеру, мы выбираем автомобиль, то вариантами выбора могут быть "тойота", "ауди" или "форд".</p>
+						<p>Чтобы добавить вариант, следует нажать на плюс в левом углу любого текстового поля или просто нажать клавишу <span class="key">Enter</span>.</p>
+						<p>Чтобы очистить строку, нажмите крестик в правой стороне текстового поля. Чтобы удалить тестовое поле полностью, нажмите крестик ещё раз. Того же эффекта можно добиться, нажав <span class="key">Ctrl или Shift</span> + <span class="key">Del или Backspace</span>.</p>
+						<p>Чтобы перейти к следующему шагу, нажмите кноку <span class="key">Далее</span> или <span class="key">Ctrl или Shift</span> + <span class="key">Enter</span>.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+<!-- end objects.html-->
+<!-- start crits.html-->
+<script type="text/html" id="tpCrits">
+	<?
+		var list = $1.crits || [];
+		var objects = $1.objects || [];
+		var cmpBase = window.calc.cmpCount(objects.length);
+		var cmpCount = window.calc.cmpCount(list.length, cmpBase);
+		var cmpText = window.lang.numberWord(cmpCount, 'шаг', 'шага', 'шагов');
+	?>
+	<div class="pg__it">
+		<div class="srn" id="srnMain">
+			<div class="srn__mn">
+				<div class="ctr">
+					<div class="ctr__in">
+						<form action="#" class="frm  frm--w-sd  js-frm-lst  js-frm-crt  js-frm-cc" name="crits" data-item="#tpFormListItem" data-item-title="критерий" data-cc="<?= cmpBase; ?>">
+							<h1 class="hg hg--pm">По каким критериям сравниваем?</h1>
+							<?= $.template('#tpFormList', list, 'критерий'); ?>
+							<div class="frm__sd">
+								<p class="tac">Итого:
+									<strong class="js-frm-cc__cc"><?= cmpCount; ?></strong></strong>
+									<span class="js-frm-cc__tt"><?= cmpText; ?></span>.
+								</p>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="srn__sd">
+				<div class="ctr ctr--sd">
+					<div class="ctr__in  txt txt--sd">
+						<h2 class="hg hg--sd">Подсказка</h2>
+						<p>Этот шаг можно пропустить.</p>
+						<p>Критерии выбора нужны для получения более точного результата. Для нашего примера с автомобилем это могут быть: "скорость", "цена", "внешний вид" и т.д.</p>
+						<p>Следует помнить, что от количества критериев напрямую зависит время принятия решения. В нижней части экрана отображается, сколько шагов потребуется для выбора.</p>
+						<p>Управление на этой странице аналогично предыдущей.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+<!-- end crits.html-->
+<!-- start cmp_item.html-->
+<script type="text/html" id="tpCmpItem">
+	<?
+		var valueA = $0.valueA;
+		var valueB = $0.valueB;
+		var value = $0.value;
+		var crit = $0.crit;
+
+		var step = $0.index + 1;
+		var length = $0.maxIndex + 1;
+
+		var percent = $0.index / $0.maxIndex * 100;
+		var title = $1;
+	?>
+	<div class="pg__it">
+		<div class="ctr">
+			<div class="ctr__in">
+				<form action="#" class="frm frm--w-sd  js-frm-cp">
+					<h1 class="hg hg--pm">
+						Сравниваем <?= title; ?>
+						<div class="hg__pb" style="width: <?= percent; ?>%"></div>
+					</h1>
+					<? if (crit) { ?>
+						<p class="tlg">Если учитывать только <strong><?= crit; ?></strong>, выберите, что для вас важнее:</p>
+					<? } else { ?>
+						<p class="tlg">Выберите, что для вас важнее:</p>
+					<? } ?>
+					<div class="frm__it">
+						<label class="rdo rdo--bk">
+							<span class="rdo__tt"><?= valueA; ?></span>
+							<? if (value === true) { ?>
+								<input type="radio" name="value" value="1" class="rdo__pk  js-frm-cp__vl" checked="" tabindex="">
+							<? } else { ?>
+								<input type="radio" name="value" value="1" class="rdo__pk  js-frm-cp__vl" tabindex="">
+							<? } ?>
+							<span class="rdo__ic"></span>
+						</label>
+					</div>
+					<div class="frm__it">
+						<label class="rdo rdo--bk">
+							<span class="rdo__tt"><?= valueB; ?></span>
+							<? if (value === false) { ?>
+								<input type="radio" name="value" value="0" class="rdo__pk  js-frm-cp__vl" checked="" tabindex="">
+							<? } else { ?>
+								<input type="radio" name="value" value="0" class="rdo__pk  js-frm-cp__vl" tabindex="">
+							<? } ?>
+							<span class="rdo__ic"></span>
+						</label>
+					</div>
+					<div class="frm__it  frm__it--btm">
+						<button type="back" class="btn btn--pl">Назад</button>
+						<button type="submit" class="btn btn--wd  ftr" tabindex="">Далее</button>
+					</div>
+					<div class="frm__sd">
+						<p class="tac"><strong><?= step; ?></strong> из <strong><?= length; ?></strong></p>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</script>
+<!-- end cmp_item.html-->
+<!-- start cmp_crits.html-->
+<script type="text/html" id="tpCmpCrits">
+	<div class="pg__it">
+		<div class="srn" id="srnMain">
+			<div class="srn__mn">
+				<div class="pg pg--hz" id="pgSub"></div>
+			</div>
+			<div class="srn__sd">
+				<div class="ctr ctr--sd">
+					<div class="ctr__in  txt txt--sd">
+						<h2 class="hg hg--sd">Подсказка</h2>
+						<p>Оцениваем критерии выбора с точки зрения их важности для вас.</p>
+						<p>Из представленной пары выберите наиболее важный для вас критерий и нажмите кнопку <span class="key">Далее</span>.</p>
+						<p>Номер текущего шага и их общее количество показаны в нижней части экрана.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+<!-- end cmp_crits.html-->
+<!-- start cmp_crits_item.html-->
+<script type="text/html" id="tpCmpCritsItem">
+	<?= $.template('#tpCmpItem', $0, 'критерии'); ?>
+</script>
+<!-- end cmp_crits_item.html-->
+<!-- start cmp_objects.html-->
+<script type="text/html" id="tpCmpObjects">
+	<div class="pg__it">
+		<div class="srn" id="srnMain">
+			<div class="srn__mn">
+				<div class="pg pg--hz" id="pgSub"></div>
+			</div>
+			<div class="srn__sd">
+				<div class="ctr ctr--sd">
+					<div class="ctr__in  txt txt--sd">
+						<h2 class="hg hg--sd">Подсказка</h2>
+						<p>Оцениваем варианты выбора.</p>
+						<p>Из представленной пары выберите наиболее важный для вас вариант и нажмите кнопку <span class="key">Далее</span>.</p>
+						<p>Номер текущего шага и их общее количество показаны в нижней части экрана.</p>
+						<p>Попробуйте забыть, что существуют другие варианты, кроме показанных вам. Не пытайтесь подогнать ответ к ожидаемому. Задача данного приложения - помочь вам выбрать наиболее подходящий для вас выбор, даже если он окажется неочевидным.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+<!-- end cmp_objects.html-->
+<!-- start cmp_objects_item.html-->
+<script type="text/html" id="tpCmpObjectsItem">
+	<?= $.template('#tpCmpItem', $0, 'варианты'); ?>
+</script>
+<!-- end cmp_objects_item.html-->
+<!-- start result.html-->
+<script type="text/html" id="tpResult">
+	<?
+		var subject = $1.subject;
+		var order = $0.order;
+		var objects = $1.objects;
+	?>
+	<div class="pg__it">
+		<div class="srn" id="srnMain">
+			<div class="srn__mn">
+				<div class="ctr">
+					<div class="ctr__in  tlg">
+						<h1 class="hg hg--pm">Результаты</h1>
+						<p>Итак, мы выбирали <strong><?= subject; ?></strong>. Места распределились таким образом:</p>
+						<ol>
+							<? for (var i = 0; i < order.length; i++) { ?>
+								<? var object = objects[order[i]]; ?>
+								<? if (i === 0) { ?>
+									<li class="fwb"><?= object; ?></li>
+								<? } else { ?>
+									<li><?= object; ?></li>
+								<? } ?>
+							<? } ?>
+						</ol>
+						<p class="cf">
+							<button type="back" class="btn btn--pl">Назад</button>
+							<a href="#p=s" class="btn btn--pm btn--wd  ftr">Еще раз</a>
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="srn__sd">
+				<div class="ctr ctr--sd">
+					<div class="ctr__in  txt txt--sd">
+						<h2 class="hg hg--sd">Поделиться</h2>
+						<p>
+							<? var uriA = '//yastatic.net/es5-shims/0.0.2/es5-shims.min.js'; ?>
+							<? var uriB = '//yastatic.net/share2/share.js'; ?>
+							<? var scriptA = '<' + 'script' + ' src="' + uriA + '"' + '>' + '</' + 'script' + '>'; ?>
+							<? var scriptB = '<' + 'script' + ' src="' + uriB + '"' + '>' + '</' + 'script' + '>'; ?>
+							<?= scriptA; ?>
+							<?= scriptB; ?>
+							<div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,moimir,gplus,twitter"></div>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+
+<!-- end result.html-->
+<!-- start popups.html-->
+<script type="text/html" id="ppErrorSubject">
+	<div class="pp pp--er">
+		<p>Пожалуйста, заполните это поле.</p>
+	</div>
+</script>
+<script type="text/html" id="ppErrorObjectsLength">
+	<div class="pp pp--er">
+		<p>Введите хотя бы два варианта выбора!</p>
+	</div>
+</script>
+<script type="text/html" id="ppErrorObjectsOne">
+	<div class="pp pp--er">
+		<p>Кажется, здесь выбор очевиден. Введите как минимум два варианта.</p>
+	</div>
+</script>
+<script type="text/html" id="ppErrorCritsLength">
+	<div class="pp pp--er">
+		<p>Один критерий выбора - это не серьезно.</p>
+	</div>
+</script>
+<script type="text/html" id="ppErrorCmp">
+	<div class="pp pp--er">
+		<p>Выберите один из вариантов.</p>
+	</div>
+</script>
+<!-- end popups.html-->
+	<script src="scripts.js"></script>
+</body>
+</html>
