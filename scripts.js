@@ -1204,8 +1204,7 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
 		this.subTemplate = null;
 
 		// Задаем title.
-		if (this.data.subject) this.title = 'Выбор ' + this.data.subject;
-		else this.title = 'Помощник в принятии решений 1.0';
+		this.title = 'Помощник в принятии решений';
 	}
 
 	/**

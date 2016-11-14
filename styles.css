@@ -614,6 +614,19 @@ html {
   color: #fff;
 }
 
+.ctr--sd a {
+  transition: all 250ms ease-in-out;
+  color: #551a8b;
+}
+
+.ctr--sd a:hover {
+  color: white;
+}
+
+.ctr--sd a:active {
+  color: #551a8b;
+}
+
 .ctr--sd:before, .ctr--sd:after {
   height: 2rem;
 }
