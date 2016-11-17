@@ -619,17 +619,6 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
 	}
 
 	/**
-	 * Получает количество итераций сравнения.
-	 * @param  {Integer} objCount Количество объектов.
-	 * @param  {Integer} crtCount Количество критериев.
-	 * @return {Integer}          Общее количество итераций сравнения.
-	 */
-	function iterCount(objCount, crtCount) {
-		if (!crtCount) crtCount = 1;
-		return cmpCount(objCount) * crtCount + cmpCount(crtCount);
-	}
-
-	/**
 	 * Получает массив пар элементов для сравнения.
 	 * @param  {Number} count  Количество элементов.
 	 * @param  {Number} factor Количество повторений пар элементов.
@@ -736,7 +725,6 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
 	// Экспорт методов.
 	window.calc = {};
 	window.calc.cmpCount = cmpCount;
-	window.calc.iterCount = iterCount;
 	window.calc.getPair = getPair;
 	window.calc.sort = sort;
 
@@ -887,7 +875,6 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
 		this.onchange = bind(this, this.onchange);
 		this._isForce = false;
 		this._isBack = false;
-		this.history = [];
 	}
 
 	/**
@@ -907,18 +894,13 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
 	 */
 	AppRouter.prototype.onchange = function() {
 		var isForce = this._isForce;
+		var isBack = this._isBack;
 		this._isForce = false;
+		this._isBack = false;
 		if (isForce) return;
 
 		var current = this.getCurrent();
-		var last = this.history[this.history.length - 1];
-		var isBack = current == last;
-		console.log(this.history);
-		if (!isBack) this.history.push(current); else this.history.pop();
-
-		this._isBack = isBack;
-		if (this.onroute) this.onroute(current);
-		this._isBack = false;
+		if (this.onroute) this.onroute(current, isBack);
 	};
 
 	/**
@@ -946,8 +928,6 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
 	 */
 	AppRouter.prototype._replace = function(uri, isRoute) {
 		if (this.isCurrent(uri)) return;
-
-		this.history[this.history.length - 1] = uri;
 		this._isForce = !isRoute;
 		window.location.replace('#' + uri);
 	};
@@ -974,15 +954,8 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
 	 * @param {String} uri Страница.
 	 */
 	AppRouter.prototype.back = function(uri) {
+		this._isBack = true;
 		this._replace(uri, true);
-	};
-
-	/**
-	 * Показывает, является ли текущий адрес адресом из истории.
-	 * @return {Boolean} True или false.
-	 */
-	AppRouter.prototype.isBack = function(uri) {
-		return this._isBack;
 	};
 
 	/**
@@ -1038,10 +1011,12 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
 	 */
 	function encodeValue(value) {
 		if (value == null) return null;
+
 		for (var code in ESCAPE) {
 			if (!ESCAPE.hasOwnProperty(code)) continue;
 			value = value.replace(ESCAPE[code], code);
 		}
+		
 		return value;
 	}
 
@@ -1142,6 +1117,15 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
 		this.cmpCrits = decodeBooleans(params['cc']);
 
 		this.isCrits = this.crits == null || this.crits.length > 0;
+
+		var objCount = this.objects ? this.objects.length : 0;
+		var crtCount = this.crits ? this.crits.length : 0;
+
+		this.cmpObjectsLength = calc.cmpCount(objCount);
+		this.cmpCritsLength = calc.cmpCount(crtCount);
+		this.cmpLength = crtCount > 0
+			? this.cmpObjectsLength * crtCount + this.cmpCritsLength
+			: this.cmpObjectsLength;
 	};
 
 	/**
@@ -1189,7 +1173,7 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
 		 * Заголовок страницы.
 		 * @type {String}
 		 */
-		this.title = null;
+		this.title = 'Помощник в принятии решений';
 
 		/**
 		 * Данные приложения.
@@ -1220,9 +1204,6 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
 		 * @type {String}
 		 */
 		this.subTemplate = null;
-
-		// Задаем title.
-		this.title = 'Помощник в принятии решений';
 	}
 
 	/**
@@ -1525,6 +1506,13 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
 		 * @type {String}
 		 */
 		this.cmpName = null;
+
+		/**
+		 * Номер шага сравнения в совокупном
+		 * (и вариантов, и критериев) процессе выбора.
+		 * @type {Number}
+		 */
+		this.step = 0;
 	}
 
 	// Наследование.
@@ -1617,6 +1605,7 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
 		this.valueB = this.data.crits[values[1]];
 
 		this.maxIndex = length - 1;
+		this.step = this.index + 1;
 		
 		return false;
 	};
@@ -1688,6 +1677,7 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
 
 		this.crit = this.data.isCrits ? this.data.crits[values[2]] : null;
 		this.maxIndex = length - 1;
+		this.step = this.data.cmpCritsLength + this.index + 1;
 
 		return false;
 	};
@@ -1790,15 +1780,23 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
 	var lastTemplate = null;
 
 	/**
+	 * Задает заголовок страницы.
+	 * @param {String} title Заголовок.
+	 */
+	function setTitle(title) {
+		var $title = $(document.head).find('[property="og:title"]');
+		document.title = title;
+		$title.attr('content', title);
+	}
+
+	/**
 	 * Обрабатывает адрес страницы.
 	 */
-	function route(uri) {
-		var isBack = router.isBack();
-
+	function route(uri, isBack) {
 		var effect = isBack ? 'back' : 'next';
+		
 		var $pgMain = $('#pgMain');
 		var $pgSub = $('#pgSub');
-		var $ogTitle = $(document.head).find('[property="og:title"]');
 
 		state = AppState.create(uri);
 		var isError = state == null;
@@ -1808,8 +1806,7 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
 			throw new Error('Не доделал страницу 404.');
 		}
 
-		document.title = state.title;
-		$ogTitle.attr('content', state.title);
+		setTitle(state.title);
 
 		var template = state.template;
 		var subTemplate = state.subTemplate;

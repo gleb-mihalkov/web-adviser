@@ -89,8 +89,8 @@
 <script type="text/html" id="tpObjects">
 	<?
 		var objects = $1.objects || [];
-		var cmpCount = window.calc.cmpCount(objects.length);
-		var cmpText = window.lang.numberWord(cmpCount, 'шаг', 'шага', 'шагов');
+		var cmpLength = window.calc.cmpCount(objects.length);
+		var cmpText = window.lang.numberWord(cmpLength, 'шаг', 'шага', 'шагов');
 	?>
 	<div class="pg__it">
 		<div class="srn" id="srnMain">
@@ -102,7 +102,7 @@
 							<?= $.template('#tpFormList', objects, 'вариант'); ?>
 							<div class="frm__sd">
 								<p class="tac">Итого:
-									<strong class="js-frm-cc__cc"><?= cmpCount; ?></strong>
+									<strong class="js-frm-cc__cc"><?= cmpLength; ?></strong>
 									<span class="js-frm-cc__tt"><?= cmpText; ?></span>.
 								</p>
 							</div>
@@ -182,20 +182,16 @@
 		var value = $0.value;
 		var crit = $0.crit;
 
-		var step = $0.index + 1;
-		var length = $0.maxIndex + 1;
+		var step = $0.step;
+		var length = $0.data.cmpLength;
 
-		var percent = $0.index / $0.maxIndex * 100;
 		var title = $1;
 	?>
 	<div class="pg__it">
 		<div class="ctr">
 			<div class="ctr__in">
 				<form action="#" class="frm frm--w-sd  js-frm-cp">
-					<h1 class="hg hg--pm">
-						Сравниваем <?= title; ?>
-						<div class="hg__pb" style="width: <?= percent; ?>%"></div>
-					</h1>
+					<h1 class="hg hg--pm">Сравниваем <?= title; ?></h1>
 					<? if (crit) { ?>
 						<p class="tlg">Если учитывать только &laquo;<strong><?= crit; ?></strong>&raquo;, выберите, что для вас важнее:</p>
 					<? } else { ?>
