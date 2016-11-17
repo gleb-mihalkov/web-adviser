@@ -614,7 +614,7 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
 	function cmpCount(count, base) {
 		var cmp = (count * count - count) / 2;
 		if (!base) return cmp;
-
+		if (!count) count = 1;
 		return cmp + count * base;
 	}
 
@@ -1679,6 +1679,7 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
 		this.maxIndex = length - 1;
 		this.step = this.data.cmpCritsLength + this.index + 1;
 
+		if (this.data.isCrits) this.template += '?' + this.crit;
 		return false;
 	};
 
@@ -1815,6 +1816,9 @@ void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!=
 
 		if (isNewTemplate) $pgSub = null;
 		lastTemplate = template;
+
+		subTemplate = subTemplate ? subTemplate.replace(/\?.+$/g, '') : null;
+		template = template.replace(/\?.+$/g, '');
 
 		if (subTemplate) {
 			if ($pgSub == null || $pgSub.length === 0) {
