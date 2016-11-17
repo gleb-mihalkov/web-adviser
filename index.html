@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width; initial-scale=1.0">
-  <link rel="stylesheet" href="styles.css">
   <title>Помощник в принятии решений</title>
+  <meta property="og:title" content="Помощник в принятии решений">
   <meta name="description" content="Мои результаты выбора">
   <meta property="og:description" content="Мои результаты выбора">
+  <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/19-v_2h_Vasnetsov.jpg/640px-19-v_2h_Vasnetsov.jpg">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 	<div class="tgr  js-tgr">
 		<button type="button" class="tgr__icn  icn" data-toggle="#srnMain"></button>
 	</div>
 	<div class="pg pg--vt" id="pgMain"></div>
-<!-- start form_list_item.html-->
 <script type="text/html" id="tpFormListItem">
 	<?
 		var name = $0;
@@ -31,8 +33,6 @@
 		</label>
 	</div>
 </script>
-<!-- end form_list_item.html-->
-<!-- start form_list.html-->
 <script type="text/html" id="tpFormList">
 	<?
 		var list = $0;
@@ -47,8 +47,6 @@
 		<button type="submit" class="btn btn--wd  ftr" tabindex="">Далее</button>
 	</div>
 </script>
-<!-- end form_list.html-->
-<!-- start subject.html-->
 <script type="text/html" id="tpSubject">
 	<?
 		var subject = $1.subject;
@@ -88,8 +86,6 @@
 		</div>
 	</div>
 </script>
-<!-- end subject.html-->
-<!-- start objects.html-->
 <script type="text/html" id="tpObjects">
 	<?
 		var objects = $1.objects || [];
@@ -129,8 +125,6 @@
 		</div>
 	</div>
 </script>
-<!-- end objects.html-->
-<!-- start crits.html-->
 <script type="text/html" id="tpCrits">
 	<?
 		var list = $1.crits || [];
@@ -171,8 +165,6 @@
 		</div>
 	</div>
 </script>
-<!-- end crits.html-->
-<!-- start cmp_desc.html-->
 <script type="text/html" id="tpCmpDesc">
 	<?
 		var valueA = $0;
@@ -183,8 +175,6 @@
 	<p>Номер текущего шага и их общее количество показаны в нижней части экрана.</p>
 	<p>Попробуйте забыть, что существуют другие <?= valueB; ?>, кроме показанных вам. Не пытайтесь подогнать ответ к ожидаемому. Задача этого приложения - помочь найти наиболее подходящее для вас решение, даже если оно окажется неочевидным.</p>
 </script>
-<!-- end cmp_desc.html-->
-<!-- start cmp_item.html-->
 <script type="text/html" id="tpCmpItem">
 	<?
 		var valueA = $0.valueA;
@@ -245,8 +235,6 @@
 		</div>
 	</div>
 </script>
-<!-- end cmp_item.html-->
-<!-- start cmp_crits.html-->
 <script type="text/html" id="tpCmpCrits">
 	<div class="pg__it">
 		<div class="srn" id="srnMain">
@@ -265,13 +253,9 @@
 		</div>
 	</div>
 </script>
-<!-- end cmp_crits.html-->
-<!-- start cmp_crits_item.html-->
 <script type="text/html" id="tpCmpCritsItem">
 	<?= $.template('#tpCmpItem', $0, 'критерии'); ?>
 </script>
-<!-- end cmp_crits_item.html-->
-<!-- start cmp_objects.html-->
 <script type="text/html" id="tpCmpObjects">
 	<?
 		var isCrits = $1.isCrits;
@@ -293,13 +277,9 @@
 		</div>
 	</div>
 </script>
-<!-- end cmp_objects.html-->
-<!-- start cmp_objects_item.html-->
 <script type="text/html" id="tpCmpObjectsItem">
 	<?= $.template('#tpCmpItem', $0, 'варианты'); ?>
 </script>
-<!-- end cmp_objects_item.html-->
-<!-- start result.html-->
 <script type="text/html" id="tpResult">
 	<?
 		var subject = $1.subject;
@@ -362,8 +342,6 @@
 	</div>
 </script>
 
-<!-- end result.html-->
-<!-- start popups.html-->
 <script type="text/html" id="ppErrorSubject">
 	<div class="pp pp--er">
 		<p>Пожалуйста, заполните это поле.</p>
@@ -389,7 +367,6 @@
 		<p>Выберите один из вариантов.</p>
 	</div>
 </script>
-<!-- end popups.html-->
 	<script src="scripts.js"></script>
 </body>
 </html>
